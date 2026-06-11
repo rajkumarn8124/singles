@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -23,20 +24,18 @@ model User {
 }
 
 model Profile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id])
-  age             Int?
-  bio             String?
-  imageUrl        String? // Base64 or local URL
-  personalityTags String? // Stored as comma separated string for SQLite
-  
-  gender               String? // Male, Female, Other
-  interestedIn         String? // Male, Female, All
-  preferredPersonality String? // E.g., Introverts, Extroverts
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  age                  Int?
+  bio                  String?
+  imageUrl             String?  
+  personalityTags      String?  
+  gender               String? 
+  interestedIn         String? 
+  preferredPersonality String? 
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }
 
 model Message {
